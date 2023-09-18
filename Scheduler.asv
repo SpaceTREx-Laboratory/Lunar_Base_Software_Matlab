@@ -1,0 +1,13 @@
+classdef Scheduler<SimulationHandler
+% This class control the overall scheduling process of the simulation
+  
+
+    
+    methods
+        function obj=
+        function obj=Display(obj)
+        Phy=obj.PhyDATA();
+        arrayfun(@(x) x.Display(),Phy,'UniformOutput',false);
+        end
+    end
+end

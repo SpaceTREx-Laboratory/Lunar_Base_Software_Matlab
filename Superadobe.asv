@@ -1,0 +1,33 @@
+classdef Superadobe<PhysicalInfrastructure
+    properties 
+        Radius
+        Center
+        Height
+        Material
+        Temperature_Loc
+        Pressure_Loc
+    end
+    methods
+        % Configurator
+       function obj = Superadobe(tag, ID, physAttr, inventory)
+            obj.color='cyan';
+            obj.Tag = tag;
+            obj.ID=ID;
+            obj.Type="Superadobe";
+            obj.Center = physAttr.Center;
+            obj.Radius=physAttr.Radius;
+            obj.InventoryList = inventory;
+      end
+      function Display(obj)
+       [to,~]= regexp(obj.Tag, '[a-zA-Z]+|\d+', 'match', 'split');
+       tag = str2double(to{1}{2});
+       if tag>6
+           rectangle('Position',[obj.PhysicalAttributes.Center(1) obj.PhysicalAttributes.Center(2) obj.PhysicalAttributes.Radius  obj.PhysicalAttributes.Radius]*1/0.4008,Color=[104 99 99],LineWidth=5,Parent=obj.Screen1Handle);
+       else
+       
+            rectangle('Position',[obj.PhysicalAttributes.Center(1) obj.PhysicalAttributes.Center(2) obj.PhysicalAttributes.Radius    obj.PhysicalAttributes.Radius]*1/0.4008,EdgeColor="blue",LineWidth=200,Parent=obj.Screen2Handle);
+       end
+      end
+      
+    end
+end

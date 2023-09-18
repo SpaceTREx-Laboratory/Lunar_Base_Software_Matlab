@@ -30,10 +30,11 @@ classdef SimulationHandler<DataHandler
             obj.Screen1Handle(Screen1Handle);
             obj.Screen2Handle(Screen2Handle);
         end
-        
+
         function obj=Display(obj)           
               Phy=obj.PhyDATA();
-              arrayfun(@(x) x.Display(),Phy,'UniformOutput',false);
+              arrayfun(@(x) x.Display(),Phy)  
+
         end
 
     end

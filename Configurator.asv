@@ -1,0 +1,33 @@
+classdef  Configurator<DataHandler
+    %   Configurator class reads the configuration files and configure all
+    %   the objects in the LunarBaseSoftware
+    %   Detailed explanation goes here
+
+   
+
+    methods
+        function obj = Configurator()
+         
+            obj.Physicalinfrastructure_config(); % Physical infrastructure config
+            obj.Mobileobjects_config();          % Mobile object config
+            obj.Smartsensor_config();            % Smartsensor object config
+            obj.Inventorylist_config();          % Inverntory objects config
+        end
+    end
+    methods(Access=private)
+        
+        function obj = Physicalinfrastructure_config(obj)
+           %% This function contains the physical configurator
+            obj.Physical_Structure_config();
+        end
+         function obj = Mobileobjects_config(obj)
+           
+         end
+         function obj = Smartsensor_config(obj)
+           
+         end
+         function obj = Inventorylist_config(obj)
+           
+        end
+    end
+end

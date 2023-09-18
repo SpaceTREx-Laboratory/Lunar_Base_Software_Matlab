@@ -10,8 +10,10 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
         Loc;
         Dimension;
         Shape={'rectangle','circle'};
-        Color;
+        color;
         InventoryList;
+        Screen1Handle;
+        Screen2Handle;
     end
     methods (Static)
         function out = PhyDATA(data)
@@ -21,14 +23,8 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
             end
             out=Data;
         end
-        function out = Screen1Handle(data)
-            persistent Data;
-            if nargin
-                Data=data;
-            end
-            out=Data;
-        end
-        function out = Screen2Handle(data)
+    end
+    function out = PhyDATA(data)
             persistent Data;
             if nargin
                 Data=data;
@@ -36,5 +32,5 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
             out=Data;
         end
     end
+   
 end
-

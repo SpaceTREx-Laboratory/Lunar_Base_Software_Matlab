@@ -6,7 +6,6 @@ classdef LunarBaseSoftware
     properties(Access=private)
      ConfiguratorObj; % configurator object
      DestructorObj;   % Destructor object
-     SimulationHandlerObj;
     end
 
     methods
@@ -18,13 +17,9 @@ classdef LunarBaseSoftware
     end
     methods(Access=public)
         function obj= Setup(obj)
-         
+        
          obj.ConfiguratorObj=Configurator();
-         obj.SimulationHandlerObj=SimulationHandler();
 
-        end
-         function obj= Update(obj)
-         obj.SimulationHandlerObj.Display();
         end
     end
     methods(Access=private)
