@@ -23,7 +23,8 @@ classdef  Configurator<DataHandler
          obj.PhyDATA(Phy);
         end
          function obj = Mobileobjects_config(obj)
-           
+           InR=Internal_Robot_config();
+           obj.InternalRobotData(InR);
          end
          function obj = Smartsensor_config(obj)
            

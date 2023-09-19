@@ -1,6 +1,6 @@
-classdef LunarTransportShed<PhysicalInfrastructure
-
-     properties
+classdef Superadobepath<PhysicalInfrastructure
+   
+   properties
         Length
         Corner
         Width
@@ -8,15 +8,16 @@ classdef LunarTransportShed<PhysicalInfrastructure
      end
     
     methods
-        function obj =LunarTransportShed(tag, physAttr, inventory)
+          %% configurator
+        function obj =Superadobepath(tag, physAttr, inventory)
            obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="LunarTransportShed";
+            obj.Subtype="Superadobepath";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;
             obj.InventoryList = inventory;
-            obj.Color='b';
+            obj.Color='g';
             obj.GraphicsObj();
         end
         function stressMap = StressMap(obj)

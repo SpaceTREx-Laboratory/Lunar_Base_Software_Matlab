@@ -7,6 +7,7 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
         ID;
         Type;
         Loc;
+        GraphicsHandle;
     end
     methods (Static)
     %% Physical Infrastructure DATA
@@ -44,6 +45,34 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
             end
             out=Data;
         end
+   
+    %% InternalRobotMap
+    
+    function out = InternalRobotMap(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+   %% InternalRobotPath;
+   function out = InternalRobotPath(data)
+       persistent Data;
+       if nargin
+           Data=data;
+       end
+       out=Data;
+   end
+
+   %%     InternalRobotData
+   function out = InternalRobotData(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+
     end
 end
 

@@ -1,16 +1,18 @@
-classdef ControlTower<PhysicalInfrastructure
-    properties
+classdef LunarTransportShed<PhysicalInfrastructure
+
+     properties
         Length
         Corner
         Width
-        Material
         Center
-    end
+     end
+    
     methods
-        function obj = ControlTower(tag, physAttr, inventory)
-            obj.Tag = tag{1};
+          %% configurator
+        function obj =LunarTransportShed(tag, physAttr, inventory)
+           obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="ControlTower";
+            obj.Subtype="LunarTransportShed";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;
@@ -23,7 +25,7 @@ classdef ControlTower<PhysicalInfrastructure
 
         end
       function GraphicsObj(obj)
-       rectangle('Position',[obj.Corner(1) obj.Corner(2) obj.Length  obj.Width]*1/0.4008,'Tag',obj.Tag,EdgeColor=obj.Color,LineWidth=5,Parent=obj.Screen1Handle);
+        rectangle('Position',[obj.Corner(1) obj.Corner(2) obj.Length  obj.Width]*1/0.4008,'Tag',obj.Tag,EdgeColor=obj.Color,LineWidth=5,Parent=obj.Screen1Handle);
       end 
       function Update(obj)
         h=findobj(obj.Screen2Handle,'Tag',obj.Tag);

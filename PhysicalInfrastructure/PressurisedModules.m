@@ -1,4 +1,4 @@
-classdef HumanQuietArea<PhysicalInfrastructure
+classdef PressurisedModules<PhysicalInfrastructure
     properties
         Length
         Corner
@@ -7,15 +7,16 @@ classdef HumanQuietArea<PhysicalInfrastructure
      end
     
     methods
-        function obj = HumanQuietArea(tag, physAttr, inventory)
+          %% configurator
+        function obj =PressurisedModules(tag, physAttr, inventory)
            obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="HumanQuietArea";
+            obj.Subtype="PressurisedModules";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;
             obj.InventoryList = inventory;
-            obj.Color='g';
+            obj.Color='b';
             obj.GraphicsObj();
         end
         function stressMap = StressMap(obj)

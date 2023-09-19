@@ -1,15 +1,16 @@
-classdef PavedRoads<PhysicalInfrastructure
-   properties
+classdef LoadingDecks<PhysicalInfrastructure
+ properties
         Length
         Corner
         Width
         Center
     end
     methods
-        function obj = PavedRoads(tag, physAttr, inventory)
+          %% configurator
+        function obj = LoadingDecks(tag, physAttr, inventory)
             obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="PavedRoads";
+            obj.Subtype="LoadingDecks";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;

@@ -5,6 +5,7 @@ properties
      
     end
     methods
+          %% configurator
         function obj = LandingPadPavedRoads(tag, physAttr, inventory)
             obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
@@ -22,7 +23,7 @@ properties
 
         end
       function GraphicsObj(obj)
-      line([obj.Corner(1)*1/0.4008, obj.Corner(1)*1/0.4008], obj.Corner(3)*1/0.4008, obj.Corner(4)*1/0.4008,'r-','Tag',obj.Tag,LineWidth=5,Parent=obj.Screen2Handle);
+      line([obj.Corner(1)*1/0.4008, obj.Corner(3)*1/0.4008],[ obj.Corner(2)*1/0.4008, obj.Corner(4)*1/0.4008],'Color',obj.Color,'Tag',obj.Tag,LineWidth=5,Parent=obj.Screen2Handle);
       end 
       function Update(obj)
         h=findobj(obj.Screen2Handle,'Tag',obj.Tag);

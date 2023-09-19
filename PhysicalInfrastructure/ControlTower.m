@@ -1,20 +1,21 @@
-classdef LoadingDecks<PhysicalInfrastructure
- properties
+classdef ControlTower<PhysicalInfrastructure
+    properties
         Length
         Corner
         Width
         Center
     end
     methods
-        function obj = LoadingDecks(tag, physAttr, inventory)
+        %% configurator
+        function obj = ControlTower(tag, physAttr, inventory)
             obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="LoadingDecks";
+            obj.Subtype="ControlTower";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;
             obj.InventoryList = inventory;
-            obj.Color='c';
+            obj.Color='b';
             obj.GraphicsObj();
         end
         function stressMap = StressMap(obj)
