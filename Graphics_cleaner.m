@@ -1,6 +1,7 @@
 classdef Graphics_cleaner<DataHandler
     
     methods
+          %% configurator
         function obj=Graphics_cleaner(Corner,length,width)
             obj.rect(Corner,length,width);
         end

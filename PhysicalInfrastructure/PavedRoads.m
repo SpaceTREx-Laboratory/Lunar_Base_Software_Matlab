@@ -1,22 +1,22 @@
-classdef LunarTransportShed<PhysicalInfrastructure
-
-     properties
+classdef PavedRoads<PhysicalInfrastructure
+   properties
         Length
         Corner
         Width
         Center
-     end
-    
+    end
     methods
-        function obj =PressurisedModules(tag, physAttr, inventory)
-           obj.Tag = tag{1};
+          %% configurator
+        function obj = PavedRoads(tag, physAttr, inventory)
+            obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="PressurisedModules";
+            obj.TrackObject(obj.ID);
+            obj.Subtype="PavedRoads";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;
             obj.InventoryList = inventory;
-            obj.Color='b';
+            obj.Color='c';
             obj.GraphicsObj();
         end
         function stressMap = StressMap(obj)

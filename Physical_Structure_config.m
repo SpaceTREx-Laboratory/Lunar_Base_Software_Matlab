@@ -119,6 +119,7 @@ Physicall.Length=Ld.Length(i);
 Physicall.Corner=[Ld.Corner_x(i) Ld.Corner_y(i)];
 LD(i)=PressurisedModules(Ld.Tag(i),Physicall,Invo);
 end
+InternalRoverTrack();
 %Phy=[SA,LP,CC,HQ];
 Phy=[SA,LP,CT,CC,PR,PM,LTS,HQ,Spdp,LD,LPPR];
 %Asset_Mangement;
