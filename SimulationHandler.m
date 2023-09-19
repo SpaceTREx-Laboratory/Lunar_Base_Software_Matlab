@@ -1,9 +1,7 @@
 classdef SimulationHandler<DataHandler
     % This class handles the graphics of lunarbase software
     %Detailed explanation goes here
-    properties
-        Schedulerobj;
-    end
+ 
     methods
         function obj = SimulationHandler()
             MP = get(0, 'MonitorPositions');
@@ -29,12 +27,21 @@ classdef SimulationHandler<DataHandler
             image(I_e,'Parent', Screen1Handle,'Tag','Screen2');% Background color of the Screen2
             obj.Screen1Handle(Screen1Handle);
             obj.Screen2Handle(Screen2Handle);
+            obj.TrackObject(0);
         end
         
+        function obj=Main(obj)
+
+       arrayfun(@(x) x.Update,obj.PhyDATA(),'UniformOutput',false);
+     
+
+
+
+        end
         function obj=Display(obj)           
               Phy=obj.PhyDATA();
-              arrayfun(@(x) x.Display(),Phy,'UniformOutput',false);
+              arrayfun(@(x) x.Update(),Phy,'UniformOutput',false);
         end
-
+    
     end
 end

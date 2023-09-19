@@ -6,7 +6,7 @@ classdef  Configurator<DataHandler
    
 
     methods
-        function obj = Configurator()
+       function obj = Configurator()
          
             obj.Physicalinfrastructure_config(); % Physical infrastructure config
             obj.Mobileobjects_config();          % Mobile object config
@@ -14,12 +14,11 @@ classdef  Configurator<DataHandler
             obj.Inventorylist_config();          % Inverntory objects config
         
         end
-    end
+       end
     methods(Access=private)
         
         function obj = Physicalinfrastructure_config(obj)
            %% This function contains the physical configurator
-           
          Phy=Physical_Structure_config();
          obj.PhyDATA(Phy);
         end

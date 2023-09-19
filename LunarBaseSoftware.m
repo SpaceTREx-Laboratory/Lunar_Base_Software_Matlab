@@ -1,4 +1,4 @@
-classdef LunarBaseSoftware
+classdef LunarBaseSoftware <matlab.mixin.Heterogeneous
 %% Discription of the software
     % This is the main class of the entire Lunarbase Software
     % It can delete/configure the any classes/object of the LunarBase Software
@@ -18,13 +18,14 @@ classdef LunarBaseSoftware
     end
     methods(Access=public)
         function obj= Setup(obj)
-         
+            obj.SimulationHandlerObj=SimulationHandler();
          obj.ConfiguratorObj=Configurator();
-         obj.SimulationHandlerObj=SimulationHandler();
+      
 
         end
          function obj= Update(obj)
-         obj.SimulationHandlerObj.Display();
+             obj.SimulationHandlerObj.Main(); % Main simulation Parameter
+             obj.SimulationHandlerObj.Display();
         end
     end
     methods(Access=private)

@@ -1,0 +1,32 @@
+classdef LandingPadPavedRoads<PhysicalInfrastructure
+properties
+        
+        Corner
+     
+    end
+    methods
+        function obj = LandingPadPavedRoads(tag, physAttr, inventory)
+            obj.Tag = tag{1};
+            obj.ID=obj.TrackObject()+1;
+            obj.Subtype="LandingPadPavedRoads";
+            obj.Corner(1) = physAttr(1);
+             obj.Corner(2) = physAttr(2);
+              obj.Corner(3) = physAttr(3);
+               obj.Corner(4) = physAttr(4);
+            obj.InventoryList = inventory;
+            obj.Color='c';
+            obj.GraphicsObj();
+        end
+        function stressMap = StressMap(obj)
+
+
+        end
+      function GraphicsObj(obj)
+      line([obj.Corner(1)*1/0.4008, obj.Corner(1)*1/0.4008], obj.Corner(3)*1/0.4008, obj.Corner(4)*1/0.4008,'r-','Tag',obj.Tag,LineWidth=5,Parent=obj.Screen2Handle);
+      end 
+      function Update(obj)
+        h=findobj(obj.Screen2Handle,'Tag',obj.Tag);
+        set(h,"Position",[obj.Corner(1) obj.Corner(2) obj.Length  obj.Width]*1/0.4008,EdgeColor='r');
+      end
+    end
+end

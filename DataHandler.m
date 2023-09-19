@@ -6,14 +6,11 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
         Tag;
         ID;
         Type;
-        Data;
         Loc;
-        Dimension;
-        Shape={'rectangle','circle'};
-        Color;
-        InventoryList;
     end
     methods (Static)
+    %% Physical Infrastructure DATA
+    
         function out = PhyDATA(data)
             persistent Data;
             if nargin
@@ -21,6 +18,8 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
             end
             out=Data;
         end
+        %% Simulation Windows handles
+
         function out = Screen1Handle(data)
             persistent Data;
             if nargin
@@ -29,6 +28,16 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
             out=Data;
         end
         function out = Screen2Handle(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+
+        %% Tracking Total Number of Objects
+
+         function out = TrackObject(data)
             persistent Data;
             if nargin
                 Data=data;
