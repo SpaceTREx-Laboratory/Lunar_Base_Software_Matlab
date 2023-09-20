@@ -12,7 +12,8 @@ classdef LunarTransportShed<PhysicalInfrastructure
         function obj =LunarTransportShed(tag, physAttr, inventory)
            obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="LunarTransportShed";
+            obj.TrackObject(obj.ID);
+            obj.SubType="LunarTransportShed";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;

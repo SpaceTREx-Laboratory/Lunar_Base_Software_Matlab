@@ -10,9 +10,11 @@ classdef Superadobepath<PhysicalInfrastructure
     methods
           %% configurator
         function obj =Superadobepath(tag, physAttr, inventory)
-           obj.Tag = tag{1};
+            obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="Superadobepath";
+            obj.TrackObject(obj.ID);
+
+            obj.SubType="Superadobepath";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;

@@ -1,6 +1,6 @@
 classdef (Abstract) DataHandler<LunarBaseSoftware
-    % This class handles all the data of the software
-    % Every static function store the
+    %% This class handles all the data of the software
+    % Every static function stores data of an array of objects;
 
     properties
         Tag;
@@ -8,10 +8,22 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
         Type;
         Loc;
         GraphicsHandle;
+        SubType;
+        PixTom=0.13;   % Assuming the total length of the LunarBase is 500 m
     end
     methods (Static)
-    %% Physical Infrastructure DATA
-    
+        %% All objects DATA
+        function out = AllDATA(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+
+
+        %% Physical Infrastructure DATA
+
         function out = PhyDATA(data)
             persistent Data;
             if nargin
@@ -38,34 +50,34 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
 
         %% Tracking Total Number of Objects
 
-         function out = TrackObject(data)
+        function out = TrackObject(data)
             persistent Data;
             if nargin
                 Data=data;
             end
             out=Data;
         end
-   
-    %% InternalRobotMap
-    
-    function out = InternalRobotMap(data)
-            persistent Data;
-            if nargin
-                Data=data;
-            end
-            out=Data;
-        end
-   %% InternalRobotPath;
-   function out = InternalRobotPath(data)
-       persistent Data;
-       if nargin
-           Data=data;
-       end
-       out=Data;
-   end
 
-   %%     InternalRobotData
-   function out = InternalRobotData(data)
+        %% InternalRobotMap
+
+        function out = InternalRobotMap(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+        %% InternalRobotPath;
+        function out = InternalRobotPath(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+
+        %%     InternalRobotData
+        function out = InternalRobotData(data)
             persistent Data;
             if nargin
                 Data=data;

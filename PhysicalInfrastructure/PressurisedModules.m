@@ -11,7 +11,8 @@ classdef PressurisedModules<PhysicalInfrastructure
         function obj =PressurisedModules(tag, physAttr, inventory)
            obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="PressurisedModules";
+            obj.TrackObject(obj.ID);
+            obj.SubType="PressurisedModules";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;

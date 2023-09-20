@@ -10,7 +10,8 @@ classdef ControlTower<PhysicalInfrastructure
         function obj = ControlTower(tag, physAttr, inventory)
             obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="ControlTower";
+            obj.TrackObject(obj.ID);
+            obj.SubType="ControlTower";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;

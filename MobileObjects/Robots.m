@@ -1,16 +1,33 @@
 classdef (Abstract) Robots<MobileObjects
-    %ROBOTS Summary of this class goes here
+    %ROBOTS, This class contains all the function for doing basic
+    % operations 
     %   Detailed explanation goes here
     
     properties
-     Battery_Level;
-       Track;
+        Mode;
+        Status;
+        HomeLocation;
+        Operation;
+        Path;
+        Map;
+        Target;
+        TaskList;
+        ToolAttached;
+        CurrentToolList;
+        Speed;
+        PowerConsumption;
+        PayloadCapacity;
+        Battery_Level;
+    end
+    properties (Dependent)
+        current;
+        max;
+        min;
     end
     
     methods 
         function Display(obj)
-%             h=obj.Tag;
-%             set(h,"Postion",x[])
+     
         end
         
     end

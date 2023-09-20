@@ -11,7 +11,7 @@ classdef PavedRoads<PhysicalInfrastructure
             obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
             obj.TrackObject(obj.ID);
-            obj.Subtype="PavedRoads";
+            obj.SubType="PavedRoads";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;

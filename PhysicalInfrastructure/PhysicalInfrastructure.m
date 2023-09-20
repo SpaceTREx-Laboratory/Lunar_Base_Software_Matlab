@@ -6,9 +6,9 @@ classdef (Abstract) PhysicalInfrastructure<DataHandler
     Pressure_Loc;
     Temperature_Loc;
     Pressurized;
-    Subtype;
     InventoryList;  
     Color;
+    
     end
      
     methods

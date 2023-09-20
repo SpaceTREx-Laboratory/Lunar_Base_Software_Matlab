@@ -12,7 +12,7 @@ classdef Superadobe<PhysicalInfrastructure
             obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
              obj.TrackObject(obj.ID);
-            obj.Subtype="Superadobe";
+            obj.SubType="Superadobe";
             obj.Center = physAttr.Center;
             obj.Radius=physAttr.Radius;
             obj.InventoryList = inventory;

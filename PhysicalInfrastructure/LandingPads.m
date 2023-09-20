@@ -11,7 +11,7 @@ classdef LandingPads<PhysicalInfrastructure
             obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
             obj.TrackObject(obj.ID);
-            obj.Subtype="LandingPad";
+            obj.SubType="LandingPad";
             obj.Center = physAttr.Center;
             obj.Radius=physAttr.Radius;
             obj.InventoryList = inventory;

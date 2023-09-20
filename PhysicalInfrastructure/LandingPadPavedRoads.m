@@ -9,7 +9,8 @@ properties
         function obj = LandingPadPavedRoads(tag, physAttr, inventory)
             obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="LandingPadPavedRoads";
+            obj.TrackObject(obj.ID);
+            obj.SubType="LandingPadPavedRoads";
             obj.Corner(1) = physAttr(1);
              obj.Corner(2) = physAttr(2);
               obj.Corner(3) = physAttr(3);

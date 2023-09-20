@@ -10,10 +10,11 @@ classdef LoadingDecks<PhysicalInfrastructure
         function obj = LoadingDecks(tag, physAttr, inventory)
             obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
-            obj.Subtype="LoadingDecks";
+            obj.TrackObject(obj.ID);
+            obj.SubType="LoadingDecks";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
-             obj.Length=physAttr.Length;
+            obj.Length=physAttr.Length;
             obj.InventoryList = inventory;
             obj.Color='c';
             obj.GraphicsObj();

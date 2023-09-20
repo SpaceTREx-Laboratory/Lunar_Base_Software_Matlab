@@ -2,29 +2,39 @@ classdef  Configurator<DataHandler
     %   Configurator class reads the configuration files and configure all
     %   the objects in the LunarBaseSoftware
     %   Detailed explanation goes here
-
+   properties
+   InR;
+   EnR;
+   Phy;
+   end
    
 
     methods
        function obj = Configurator()
          
-            obj.Physicalinfrastructure_config(); % Physical infrastructure config
-            obj.Mobileobjects_config();          % Mobile object config
-            obj.Smartsensor_config();            % Smartsensor object config
-            obj.Inventorylist_config();          % Inverntory objects config
-        
+            obj=obj.Physicalinfrastructure_config(); % Physical infrastructure config
+            obj=obj.Mobileobjects_config();          % Mobile object config
+            obj=obj.Smartsensor_config();            % Smartsensor object config
+            obj=obj.Inventorylist_config();          % Inverntory objects config
+            obj.AllDATA([obj.Phy,obj.InR]);% Storing all Data;
+       %     A=obj.AllDATA();
+            
+           % T = table(A.ID,A.Tag,A.Type,A.SubType,'VariableNames',["ID","Tag","Type","SubType"]);
+  
         end
        end
     methods(Access=private)
         
         function obj = Physicalinfrastructure_config(obj)
            %% This function contains the physical configurator
-         Phy=Physical_Structure_config();
-         obj.PhyDATA(Phy);
+         obj.Phy=Physical_Structure_config();
+         obj.PhyDATA(obj.Phy);
+
+         
         end
          function obj = Mobileobjects_config(obj)
-           InR=Internal_Robot_config();
-           obj.InternalRobotData(InR);
+           obj.InR=Internal_Robot_config();
+           obj.InternalRobotData(obj.InR);
          end
          function obj = Smartsensor_config(obj)
            

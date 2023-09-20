@@ -31,14 +31,18 @@ classdef SimulationHandler<DataHandler
         end
         
         function obj=Main(obj)
-            InR=obj.InternalRobotData();
-            InR(1).Start();
+             InR=obj.InternalRobotData();
+             InR(1).Start();
+             InR(1).Status='Occupied';
+             InR(3).Start();
+             InR(4).Status='Occupied';
             for i=1:6000
         
-         InR=arrayfun(@(x) x.Move(),InR,'UniformOutput',true);
-         obj.InternalRobotData(InR);
-         %arrayfun(@(x) x.Update,obj.PhyDATA(),'UniformOutput',false);
-            obj.Display();
+                InR=arrayfun(@(x) x.Move(),InR,'UniformOutput',true);
+
+                obj.InternalRobotData(InR);
+                %arrayfun(@(x) x.Update,obj.PhyDATA(),'UniformOutput',false);
+                obj.Display();
             end
 
 

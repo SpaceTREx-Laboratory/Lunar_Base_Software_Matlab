@@ -8,7 +8,7 @@ classdef InternalRoverTrack<PhysicalInfrastructure
             obj.Tag = "IRT1";
             obj.ID=obj.TrackObject()+1;
             obj.TrackObject(obj.ID);
-            obj.Subtype="InternalRoverTrack";
+            obj.SubType="InternalRoverTrack";
             obj.Path();
         end
 
@@ -40,7 +40,7 @@ classdef InternalRoverTrack<PhysicalInfrastructure
   I=insertShape(I,"line",[X1(1:2) Y1(1:2) X2(1:2) Y2(1:2)],"Color","blue","LineWidth",5);
     I_high=insertShape(I,"line",[X1 Y1 X2 Y2],"Color","blue","LineWidth",5);
     I_temp= rgb2gray(I_high)>1;
-    I_map=binaryOccupancyMap(~I_temp,0.13); % 1 pixel = 0.13 m
+    I_map=binaryOccupancyMap(~I_temp,obj.PixTom); % 1 pixel = 0.13 m
     mat = occupancyMatrix(I_map);
     [l,m]=find(mat==0);
      C=bwtraceboundary(I_temp,[l(1) m(1)],'W');
