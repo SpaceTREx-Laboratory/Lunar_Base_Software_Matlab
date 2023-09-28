@@ -1,0 +1,37 @@
+classdef LightSmartModule < SmartModule
+    properties
+    end
+
+    methods
+        % Constructor
+        function obj = LightSmartModule()
+            
+        end
+
+        % Methods %
+        function cycle = cycleThroughSensors(obj)
+            for sensorNum = 1:length(obj.sensors)
+                if(processSignal(obj.sensors[sensorNum]))
+                    % Turn on the light
+                else
+                    % Continue
+                end
+            end
+        end
+        function smartLight = processSignal(obj, dataType)
+            % tempSensor takes temperature & sends to processor
+            % proxSensor takes distance & sends to processor
+            % processor takes temp data & sends signal to lightActuator
+            % processor takes distance data & sends signal to lightActuator
+            if(strcmp(dataType, ""))
+            % if lightActuator.state == on
+            %   turn on the light
+            % else 
+            %   do nothing
+        end
+
+        function illumination = UpdateGraphicsobj(obj)
+                
+        end
+    end
+end
