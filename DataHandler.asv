@@ -1,0 +1,45 @@
+classdef (Abstract) DataHandler<LunarBaseSoftware
+    % This class handles all the data of the software
+    % Every static function store the
+
+    properties
+        Tag;
+        ID;
+        Type;
+        Data;
+        Loc;
+      
+   
+    end
+    methods (Static)
+        function out = PhyDATA(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+        function out = Screen1Handle(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+        function out = Screen2Handle(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+         function out = Track(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+    end
+end
+

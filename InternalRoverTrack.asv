@@ -1,0 +1,73 @@
+classdef InternalRoverTrack<PhysicalInfrastructure
+    % This function assign the path for the internal rover
+
+
+    methods
+
+        function obj=InternalRoverTrack()
+            obj.Tag = "IR1";
+            obj.ID=obj.TrackObject()+1;
+            obj.TrackObject(obj.ID);
+            obj.Subtype="InternalRoverTrack";
+            obj.Path();
+        end
+
+        function obj=Path(obj)
+            [~,sheet_name]=xlsfinfo('Internal_Rover.xlsx'); % reading lunarbase data
+            for k=1:numel(sheet_name)
+                Sheet=sheet_name{k};
+                Data{k}=readtable('Internal_Rover.xlsx','Sheet',Sheet,'VariableNamingRule','preserve');
+            end
+            %% Data loading
+            mmToPix=3840/1540;
+            Basedata=array2table(Data,"VariableNames",sheet_name);
+            Int_Rob=Basedata.Path{1};
+            Int_Rob_rect=Basedata.Rect{1};
+            X1=Int_Rob.X1*mmToPix;
+            Y1=Int_Rob.Y1*mmToPix;
+            X2=Int_Rob.X2*mmToPix;
+            Y2=Int_Rob.Y2*mmToPix;
+           for i=1:length(Int_Rob_rect.Length)
+               rectangle('Position',[Int_Rob_rect.Corner_X(i) Int_Rob_rect.Corner_Y(i) Int_Rob_rect.Length(i) Int_Rob_rect.Width(i)]*mmToPix,"EdgeColor","g","LineWidth",1,Parent=obj.Screen1Handle,Tag=obj.Tag);
+           end
+           for i=1:length(X1)
+               line([X1(i), X2(i)],[Y1(i), Y2(i)],"Color","g","LineWidth",1,Parent=obj.Screen1Handle,Tag=obj.Tag);
+           end
+
+           I=uint8(zeros(2160,3840,3));
+  I=insertShape(I,"rectangle",[Int_Rob_rect.Corner_X Int_Rob_rect.Corner_Y Int_Rob_rect.Length Int_Rob_rect.Width]*mmToPix,"Color","blue","LineWidth",5);
+  I=insertShape(I,"line",[X1(1:2) Y1(1:2) X2(1:2) Y2(1:2)],"Color","blue","LineWidth",5);
+    I_high=insertShape(I,"line",[X1 Y1 X2 Y2],"Color","blue","LineWidth",5);
+    imshow(I_high)
+    I_temp=im2bw(I_high>1);
+    figure(1)
+    imshow(double(I_temp));
+    [rows, cols] = find(I_temp>0);
+
+        end
+        
+
+    end
+
+
+
+    % % [~,~,I_robotpath_data_mask]=grid_layers(Internal_Robot.path_img());
+    % % %[rows, cols, heights] = ind2sub(size(robot_path.occupancyMap), find(robot_path.occupancyMap));
+    % % robot_path=binaryOccupancyMap(~I_robotpath_data_mask, 10);
+    % % mat = occupancyMatrix(robot_path);
+    % % [l,m]=find(mat==0);
+    % %Internal_Robot.path_mask(I_robotpath_data_mask);
+    % Internal_Robot.location_img(uint8(zeros(2160,3840,3)));
+    % C=bwtraceboundary(I_robotpath_data_mask,[l(1) m(1)],'W');
+    % Path_temp=[C(:,2) C(:,1)];
+    % I_temp=false(size(I_robotpath_data_mask));
+    % temp_idx=find(ismember(Path_temp,[257,216],"rows"));
+    % Path=[Path_temp(temp_idx:end,:);Path_temp(1:temp_idx-1,:)];
+    % int_x=sub2ind([432 768],Path(:,2),Path(:,1));
+    % I_temp(int_x)=true;
+    % Internal_Robot.path_mask(I_temp);
+    % Path=unique(Path,'rows','stable');
+    % I=Colorchange(Internal_Robot.path_img,[ 0.5020    0.5020    0.5020]);
+    % Internal_Robot.path_img(I);
+    % Internal_Robot.Path_Data(Path);
+end
