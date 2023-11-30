@@ -8,27 +8,33 @@ classdef (Abstract) Robots<MobileObjects
         Status;
         HomeLocation;
         Operation;
-        Path;
+        FullPath;
+        LocalPath;
         Map;
         Target;
+        Task;
         TaskList;
+        TargetList;
+        OperationList;
+        Mission;
         ToolAttached;
         CurrentToolList;
         Speed;
-        PowerConsumption;
+        MaxEnergy;
+        PowerConsumptionRate;
         PayloadCapacity;
-        Battery_Level;
+        BatteryLevel;
+        RovingEnergy;
+        RobotType;
     end
     properties (Dependent)
-        current;
-        max;
-        min;
+        Current;
+        Max;
+        Min;
     end
     
     methods 
-        function Display(obj)
-     
-        end
+
         
     end
 end

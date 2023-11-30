@@ -1,7 +1,10 @@
 classdef SimulationHandler<DataHandler
     % This class handles the graphics of lunarbase software
-    %Detailed explanation goes here
- 
+    % Detailed explanation goes here
+    properties
+        SchedulerObj 
+
+    end
     methods
         function obj = SimulationHandler()
             MP = get(0, 'MonitorPositions');
@@ -28,30 +31,33 @@ classdef SimulationHandler<DataHandler
             obj.Screen1Handle(Screen1Handle);
             obj.Screen2Handle(Screen2Handle);
             obj.TrackObject(0);
+         
         end
         
         function obj=Main(obj)
-             InR=obj.InternalRobotData();
-             InR(1).Start();
+            %% Updating robots
+              InR=obj.InternalRobotData();
+              InR(1)=InR(1).Start();
+              InR(2).Mode='Patrol';
+           InR(2)=InR(2).Start();
              InR(1).Status='Occupied';
-             InR(3).Start();
-             InR(4).Status='Occupied';
-            for i=1:6000
-        
-                InR=arrayfun(@(x) x.Move(),InR,'UniformOutput',true);
+               InR(2).Status='Occupied';
+%              InR(3)=InR(3).Start();
+%              InR(3).Status='Occupied';
+            for i=1:10000
+                
+                InR=arrayfun(@(x) x.Update(),InR,'UniformOutput',true);
 
                 obj.InternalRobotData(InR);
                 %arrayfun(@(x) x.Update,obj.PhyDATA(),'UniformOutput',false);
                 obj.Display();
             end
-
-
-        end
+                     end
         function obj=Display(obj)           
-              %Phy=obj.PhyDATA();
+               %Phy=obj.PhyDATA();
                InR=obj.InternalRobotData();
               arrayfun(@(x) x.UpdateGraphicsobj(),InR,'UniformOutput',false);
-             % arrayfun(@(x) x.Update(),Phy,'UniformOutput',false);
+              % arrayfun(@(x) x.Update(),Phy,'UniformOutput',false);
              pause(0.001)
         end
     
