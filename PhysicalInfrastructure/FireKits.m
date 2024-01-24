@@ -1,4 +1,4 @@
-classdef PressurisedModules<PhysicalInfrastructure
+classdef FireKits<PhysicalInfrastructure
     properties
         Length
         Corner
@@ -8,16 +8,16 @@ classdef PressurisedModules<PhysicalInfrastructure
     
     methods
           %% configurator
-        function obj =PressurisedModules(tag, physAttr, inventory)
+        function obj =FireKits(tag, physAttr, inventory)
            obj.Tag = tag{1};
             obj.ID=obj.TrackObject()+1;
             obj.TrackObject(obj.ID);
-            obj.SubType="PressurisedModules";
+            obj.SubType="FireKits";
             obj.Corner = physAttr.Corner;
             obj.Width=physAttr.Width;
              obj.Length=physAttr.Length;
             obj.InventoryList = inventory;
-            obj.Color='g';
+            obj.Color='y';
             obj.GraphicsObj();
         end
         function stressMap = StressMap(obj)

@@ -13,12 +13,16 @@ classdef  Configurator<DataHandler
        function obj = Configurator()
          
             obj=obj.Physicalinfrastructure_config(); % Physical infrastructure config
+            PADATA=load("PAAREA");
             obj=obj.Mobileobjects_config();          % Mobile object config
             obj=obj.Smartsensor_config();            % Smartsensor object config
             obj=obj.Inventorylist_config();          % Inverntory objects config
             obj.AllDATA([obj.Phy,obj.InR]);% Storing all Data;
-            A=obj.AllDATA();
-            T = table(A.ID,A.Tag,A.Type,A.SubType,'VariableNames',["ID","Tag","Type","SubType"]);
+            
+
+       %     A=obj.AllDATA();
+            
+           % T = table(A.ID,A.Tag,A.Type,A.SubType,'VariableNames',["ID","Tag","Type","SubType"]);
   
         end
        end
@@ -28,7 +32,6 @@ classdef  Configurator<DataHandler
            %% This function contains the physical configurator
          obj.Phy=Physical_Structure_config();
          obj.PhyDATA(obj.Phy);
-
          
         end
          function obj = Mobileobjects_config(obj)
@@ -41,6 +44,6 @@ classdef  Configurator<DataHandler
          function obj = Inventorylist_config(obj)
            
          end
-        
+       
     end
 end

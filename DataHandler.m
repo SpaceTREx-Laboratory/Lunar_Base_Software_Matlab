@@ -1,4 +1,4 @@
-classdef (Abstract) DataHandler<LunarBaseSoftware
+classdef (Abstract) DataHandler<LunarConstruction
     %% This class handles all the data of the software
     % Every static function stores data of an array of objects;
 
@@ -9,7 +9,7 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
         Loc;
         GraphicsHandle;
         SubType;
-        PixTom=0.13;   % Assuming the total length of the LunarBase is 500 m
+        PixTom=1/0.1302;   % Assuming the total length of the LunarBase is 500 m
     end
     methods (Static)
         %% All objects DATA
@@ -84,7 +84,110 @@ classdef (Abstract) DataHandler<LunarBaseSoftware
             end
             out=Data;
         end
+%% Internal Robot Target
+        
+function out = InternalRobotTarget(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+%% Internal ChargingStations
+function out = InternalRobotCS(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
 
+    %% Environmental Data
+    function out = EnvDataTemp(data)
+           persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+    end
+     %% Pressurised Area Data
+    function out = PRArea(data)
+       persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+    end
+    
+    %% Fire Data
+
+    function out = FRData(data)
+          persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+    end
+     %% ExternalRobotMap
+
+        function out = ExternalRobotMap(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+        %% ExternalRobotPath;
+        function out = ExternalRobotPath(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+
+        %%     ExternalRobotData
+        function out = ExternalRobotData(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+%% External Robot Target
+        
+function out = ExternalRobotTarget(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+%% Internal ChargingStations
+function out = ExternalRobotCS(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+end
+
+
+        %%    SmartSensorsData
+        function out = SmartSensors(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+    function out =Complete(data)
+          persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+    end
     end
 end
 

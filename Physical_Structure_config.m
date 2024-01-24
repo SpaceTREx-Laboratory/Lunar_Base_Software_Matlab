@@ -1,5 +1,6 @@
 function Phy=Physical_Structure_config()
 %% Data From the configuration file
+
 % Location of Static Structure
 [~,sheet_name_strc]=xlsfinfo('LunarBase.xlsx'); % Reading lunarbase data
 for k=1:numel(sheet_name_strc)
@@ -20,6 +21,8 @@ Sp=Basedata_strc.Superadobepath{1}; % CommunicationCenter
 Ld=Basedata_strc.LoadingDocks{1}; % LoadingDock
 Lp=Basedata_strc.LandingPads{1}; % LoadingDock
 Lpr=Basedata_strc.LandingPadRoads{1}; % LoadingDock
+Cs=Basedata_strc.ChargingStations{1}; % LoadingDock
+Fk=Basedata_strc.FireKits{1}; % LoadingDock
 Physicalat.Material='al';
 Inv=1;
 Invo=1;
@@ -119,8 +122,20 @@ Physicall.Length=Ld.Length(i);
 Physicall.Corner=[Ld.Corner_x(i) Ld.Corner_y(i)];
 LD(i)=PressurisedModules(Ld.Tag(i),Physicall,Invo);
 end
+for i=1:length(Cs.("S No"))
+Physicall.Width=5;
+Physicall.Length=5;
+Physicall.Corner=[Cs.Corner_x(i) Cs.Corner_y(i)];
+CS(i)=ChargingStations(Cs.Tag(i),Physicall,Invo);
+end
+for i=1:length(Fk.("S No"))
+Physicall.Width=5;
+Physicall.Length=5;
+Physicall.Corner=[Fk.Corner_x(i) Fk.Corner_y(i)];
+FK(i)=FireKits(Fk.Tag(i),Physicall,Invo);
+end
 InternalRoverTrack();
 %Phy=[SA,LP,CC,HQ];
-Phy=[SA,LP,CT,CC,PR,PM,LTS,HQ,Spdp,LD,LPPR];
+Phy=[SA,LP,CT,CC,PR,PM,LTS,HQ,Spdp,LD,LPPR,CS,FK];
 %Asset_Mangement;
 end

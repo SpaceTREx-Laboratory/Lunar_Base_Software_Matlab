@@ -29,10 +29,10 @@ classdef InternalRoverTrack<PhysicalInfrastructure
             X2=Int_Rob.X2*mmToPix;
             Y2=Int_Rob.Y2*mmToPix;
            for i=1:length(Int_Rob_rect.Length)
-               rectangle('Position',[Int_Rob_rect.Corner_X(i) Int_Rob_rect.Corner_Y(i) Int_Rob_rect.Length(i) Int_Rob_rect.Width(i)]*mmToPix,"EdgeColor","g","LineWidth",1,Parent=obj.Screen1Handle,Tag=obj.Tag);
+               rectangle('Position',[Int_Rob_rect.Corner_X(i) Int_Rob_rect.Corner_Y(i) Int_Rob_rect.Length(i) Int_Rob_rect.Width(i)]*mmToPix,"EdgeColor","c","LineWidth",1,Parent=obj.Screen1Handle,Tag=obj.Tag);
            end
            for i=1:length(X1)
-               line([X1(i), X2(i)],[Y1(i), Y2(i)],"Color","g","LineWidth",1,Parent=obj.Screen1Handle,Tag=obj.Tag);
+               line([X1(i), X2(i)],[Y1(i), Y2(i)],"Color","c","LineWidth",1,Parent=obj.Screen1Handle,Tag=obj.Tag);
            end
 
            I=uint8(zeros(2160,3840,3));

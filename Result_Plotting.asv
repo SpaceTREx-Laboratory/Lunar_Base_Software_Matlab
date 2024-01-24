@@ -1,0 +1,71 @@
+clc;
+clear;
+close force all;
+for i=1:5
+%     j=i*10;
+%     if j==80
+%         j=78;
+%     end
+G="INR"+num2str(i)+".mat";
+%G2="INR3"+num2str(j)+".mat";
+FR_Data=load(G).Single_fire;
+%FR_Data2=load(G).Single_fire;
+q_m=cell2mat(arrayfun(@(x) x.q_history,FR_Data,'UniformOutput',false));
+T_L=cell2mat(arrayfun(@(x) x.T_L,FR_Data,'UniformOutput',false));
+Q_m=sum(q_m,2);
+T_m=max(T_L,[],2);
+[idx(i),q_max(i)]=max(Q_m);
+[idt(i),T_max(i)]=max(T_m);
+FR_Data=load(G).Single_fire;
+% q_m2=cell2mat(arrayfun(@(x) x.q_history,FR_Data2,'UniformOutput',false));
+% Q_m2=mean(q_m2,2);
+% [idx2(i),q_max2(i)]=max(Q_m2);
+figure(1)
+hold on
+plot(1:length(Q_m),Q_m/1000,DisplayName="No of Robots: "+ num2str(i))
+xlabel('time (s)')
+ylabel('HRR (kW)')
+title('Fire Fighting with Multiple Modular Robots')
+figure(3)
+hold on
+plot(1:length(Q_m),T_m,DisplayName="No of Robots: "+ num2str(i));
+xlabel('time (s)')
+ylabel('Me Room Temperature (deg C)')
+title('Fire Fighting with Multiple Modular Robots')
+Tim(i)=length(Q_m);
+end
+figure(2)
+plot(1:i,idt)
+xlabel('Number of Robots');
+ylabel('Maximum Room Temperature (deg C)')
+title('Fire Fighting with Multiple Modular Robots')
+figure(4)
+plot(1:i,idx/1000);
+xlabel('Number of Robots')
+ylabel('Maximum Heat Release Rate (kW)')
+title('Fire Fighting with Multiple Modular Robots')
+figure(5)
+plot(1:i,Tim);
+xlabel('Number of Robots')
+ylabel('Time Required to Extinguish Fire (s)')
+title('Fire Fighting with Multiple Modular Robots')
+FR_Data=load("INR6NO.mat").Single_fire;
+%FR_Data2=load(G).Single_fire;
+q_m=cell2mat(arrayfun(@(x) x.q_history,FR_Data,'UniformOutput',false));
+T_L=cell2mat(arrayfun(@(x) x.T_L,FR_Data,'UniformOutput',false));
+Q_m=sum(q_m,2);
+T_m=max(T_L,[],2);
+[idx,q_max]=max(Q_m);
+[idt,T_max]=max(T_m);
+figure(1)
+hold on
+plot(1:length(Q_m),Q_m/1000,DisplayName="Without FireFighting")
+figure(3)
+hold on
+plot(1:length(Q_m),T_m,DisplayName="Without FireFighting")
+% figure(4)
+% hold on
+% plot(1:i,repmat(idx/100,5,1),DisplayName="Without FireFighting")
+% figure(5)
+% hold on
+% plot(1:i,repmat(idt,5,1),DisplayName="Without FireFighting")

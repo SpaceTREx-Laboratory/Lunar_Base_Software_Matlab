@@ -26,9 +26,9 @@ classdef LunarBaseSoftware <matlab.mixin.Heterogeneous
 
         end
          function obj= Update(obj)
-             obj.SimulationHandlerObj.Main(); % Main simulation Parameter
+              obj.SimulationHandlerObj.Main(); % Main simulation Parameter
           %   obj.SimulationHandlerObj.Display(); % Simulation Graphics updater
-             %obj.Close();
+          %   obj.Close();
         end
     end
     methods(Access=private)

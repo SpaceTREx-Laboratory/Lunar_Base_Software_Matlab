@@ -2,7 +2,7 @@ classdef InternalRobot<Robots
 %% This is internal Robot Class
 %% Internal Robot's Constructor
     methods
-        function obj = InternalRobot(Tag,max_speed,min_speed,robottype,roving_energy_max,roving_energy_min)
+        function obj = InternalRobot(Tag,Loc,max_speed,min_speed,robottype,roving_energy_max,roving_energy_min)
             obj.ID=obj.TrackObject()+1;
             obj.TrackObject(obj.ID);
             obj.Type="MobileObject";
@@ -14,16 +14,15 @@ classdef InternalRobot<Robots
             obj.MaxEnergy=100;
             obj.Speed.Max=max_speed;
             obj.Speed.Min=min_speed;
-            %obj.Speed.Max=2/obj.PixTom;
-            obj.Speed.Current=  ceil(obj.Speed.Max*0.020);
             obj.FullPath=obj.InternalRobotPath();
-            obj.HomeLocation=[obj.FullPath(1,1) obj.FullPath(1,2)];
-            obj.Loc=[obj.FullPath(1,1) obj.FullPath(1,2)];
+            obj.HomeLocation=Loc;
+            obj.Loc=Loc;
             obj.Map=obj.InternalRobotMap();
             obj=obj.CreateGraphicsobj();
             obj.RovingEnergy.Max=roving_energy_max;
             obj.RovingEnergy.Min=roving_energy_min;
-            obj.TaskList=1;
+            obj.TaskList=[];
+            obj.Mode="Idle";
         end
 
     end
@@ -32,40 +31,68 @@ classdef InternalRobot<Robots
       %% This are the elemental tasks and operations that can be accessed from out side
 
        function obj=Start(obj)
-           obj.Task=obj.Mode;
-           if strcmp(obj.Mode,"Patrol")
+           obj.Mode="Moving";
+           if strcmp(obj.Task,"Patrol")
                obj.LocalPath=obj.FullPath;
            else
-            r =5000;
-            obj.Target=obj.FullPath(r,:);
             obj.TargetList=[obj.Target;obj.HomeLocation];
            end
        end
   end
 
 
-    methods 
+    methods  
         function obj=CreateGraphicsobj(obj)
             %% This function create the graphics object
 
             obj=CreateGraphicsobj@MobileObjects(obj);
         end
+       
         function obj=Update(obj)
-            %% This function updates the robot status 
-            if isempty(obj.LocalPath) && ~isempty(obj.TaskList) 
-            obj=obj.PathPlanning();
-            obj.PowerConsumptionRate=obj.RovingEnergy.Min*0.10;
-            obj.Mode="Moving";
-            obj.Move();
-           elseif strcmp(obj.Mode,"Patrol") 
+
+            %% This function updates the robot status
+            obj=obj.AssignSpeed();
+            if  strcmp(obj.Mode,"Wait")
+                switch convertStringsToChars(obj.Task)
+                    case 'FireFighting'
+                        obj=obj.FireFighting();
+                    case 'AsstetManagement'
+                        obj.Target=obj.TargetList;
+                        obj.TargetList=[];
+
+                end
+
+
+            elseif isempty(obj.LocalPath) && ~isempty(obj.TaskList)
+                obj=obj.PathPlanning();
+                obj.PowerConsumptionRate=obj.RovingEnergy.Min*0.10;
+                obj.Mode="Moving";
+                obj.Move();
+            elseif strcmp(obj.Mode,"Patrol")
                 obj=obj.Patrol();
-           elseif strcmp(obj.Mode,"Moving") 
-               obj=obj.Move();
-           end
-            
-         
+            elseif strcmp(obj.Mode,"Moving")
+                obj=obj.Move();
+
+            end
+
+
         end
 
+
+        function obj=AssignSpeed(obj)
+            if strcmp(obj.TaskType,"High") || strcmp(obj.Status,"LowPower") 
+            obj.Speed.Current=obj.Speed.Max;
+
+            elseif strcmp(obj.TaskType,"Medium")
+            obj.Speed.Current=obj.Speed.Max/(0.5);
+
+            else
+            obj.Speed.Current=obj.Speed.Min;
+                
+            end
+
+        end
+       
         function obj=Patrol(obj)
             obj.PowerConsumptionRate=obj.RovingEnergy.Max*0.001;
             obj=obj.Move();
@@ -77,15 +104,15 @@ classdef InternalRobot<Robots
          rng('default');
          
          robot_Path=plan(planner,flip(obj.Loc),flip(obj.Target)); 
-         figure(3)
-         show(planner)
+%          figure(3)
+%          show(planner)
          obj.LocalPath=[robot_Path(:,2) robot_Path(:,1)];
         end
 
         %% Move Update
 
         function obj=Move(obj)
-            if strcmp(obj.Status,'Occupied') || strcmp(obj.Status,'LowPower') 
+            if strcmp(obj.Status,'Occupied') || strcmp(obj.Status,'LowPower') || strcmp(obj.Mode,'Moving') 
             % Move location
             f=find(double(ismember(obj.LocalPath,obj.Loc,"rows"))==1);
             f=f(1);
@@ -99,7 +126,9 @@ classdef InternalRobot<Robots
             obj=obj.TargetUpdate();
             else
             obj.Loc=obj.HomeLocation;
-            obj.Status='Idle';
+            obj.Mode='Idle';
+            obj.Task=[];
+ 
             end
                 obj=obj.PowerconsumptionUpdate();
                 obj=obj.UpdateGraphicsobj();
@@ -124,21 +153,35 @@ classdef InternalRobot<Robots
         function obj=TargetUpdate(obj)
 
             if isempty(obj.TargetList)
-
                 obj.Target=obj.HomeLocation;
             else
-                if size(obj.TargetList)>1
-                    obj.Target=obj.TargetList(1,:);
-                    obj.TargetList=obj.TargetList(2:end,:);
-                else
-                    obj.Target=obj.TargetList;
-                    obj.TargetList=[];
-                end
+                 Cu_Target=ismember(obj.TargetList, obj.Target,"rows");
+                 obj.TargetList(Cu_Target,:)=[];
+                 if size(obj.TargetList)>1
+                     obj.Target=obj.TargetList(1,:);
+                     obj.TargetList=obj.TargetList(2:end,:);
+                 else
+                     switch convertStringsToChars(obj.Task)
+                         case 'FireFighting'
+                             EnvM=obj.FRData();
+                             if  max(Location.Temp(),[],'all')>27 && EnvM(1)>=0 
+                                 obj.Mode="Wait";
+                             else
+                                 obj.Target=obj.TargetList;
+                                 obj.TargetList=[]; 
+                                 obj.Mode="Moving";
+                             end
+                         case 'AsstetManagement'
+                              obj.Target=obj.TargetList;
+                              obj.TargetList=[];
+                      
+                     end
+                 end
             end
         end
 
          %% Power consumption Update
-
+        
         function obj=PowerconsumptionUpdate(obj)
             if strcmp(obj.Status,"LowPower")
                 obj.BatteryLevel=obj.BatteryLevel-(obj.PowerConsumptionRate*0.001);
@@ -147,6 +190,21 @@ classdef InternalRobot<Robots
                 obj=obj.CheckBatteryLevel();
             end
         end
+
+        %% Fire fighting
+            function obj=FireFighting(obj)
+                EnvM=obj.FRData();
+                if   max(Location.Temp(),[],'all')>27 || EnvM(1)>0
+                    obj.Mode="Wait";
+                else
+                    obj.Target=obj.TargetList;
+                    obj.TargetList=[];
+                    
+                    obj.Mode="Moving";
+                    obj.Task="ReturningHome";
+                end
+                return;
+            end
 
         %% Checking battery level 
 
