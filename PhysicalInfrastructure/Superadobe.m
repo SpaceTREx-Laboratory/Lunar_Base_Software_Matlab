@@ -22,9 +22,8 @@ classdef Superadobe<PhysicalInfrastructure
        [to,~]= regexp(obj.Tag, '[a-zA-Z]+|\d+', 'match', 'split');
        tag = str2double(to{2});
        if tag>6
-           rectangle('Position',[obj.Center(1)-obj.Radius obj.Center(2)-obj.Radius 2*obj.Radius  2*obj.Radius]*1/0.4008,EdgeColor=[104 99 99]/255,Curvature=1,LineWidth=1,Parent=obj.Screen1Handle,Tag=obj.Tag);
+           rectangle('Position',[obj.Center(1)-obj.Radius obj.Center(2)-obj.Radius 2*obj.Radius  2*obj.Radius]*1/0.4008,EdgeColor='g',Curvature=1,LineWidth=1,Parent=obj.Screen1Handle,Tag=obj.Tag);
        else
-       
            rectangle('Position',[obj.Center(1)-obj.Radius obj.Center(2)-obj.Radius 2*obj.Radius  2*obj.Radius]*1/0.4008,EdgeColor="blue",Curvature=1,LineWidth=5,Parent=obj.Screen1Handle,Tag=obj.Tag);
        end
       end

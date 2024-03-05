@@ -19,12 +19,12 @@ classdef CommunicationCenter<PhysicalInfrastructure
         function stressMap = StressMap(obj)
           
         end
-    function GraphicsObj(obj)
+       function GraphicsObj(obj)
         obj.GraphicsHandle=rectangle('Position',[obj.Center(1)-obj.Radius obj.Center(2)-obj.Radius 2*obj.Radius  2*obj.Radius]*1/0.4008,'Tag',obj.Tag,EdgeColor=obj.Color,Curvature=1,LineWidth=5,Parent=obj.Screen1Handle);
-      end 
-      function Update(obj)
+       end 
+       function Update(obj)
         h=findobj(obj.Screen2Handle,'Tag',obj.Tag);
-         obj.GraphicsHandle=set(h,"Position",[obj.Center(1)-obj.Radius obj.Center(2)-obj.Radius 2*obj.Radius  2*obj.Radius]*1/0.4008,EdgeColor='r');
+        obj.GraphicsHandle=set(h,"Position",[obj.Center(1)-obj.Radius obj.Center(2)-obj.Radius 2*obj.Radius  2*obj.Radius]*1/0.4008,EdgeColor='r');
       end
     end
 end

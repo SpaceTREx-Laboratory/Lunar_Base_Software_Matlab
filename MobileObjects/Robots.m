@@ -6,8 +6,8 @@ classdef (Abstract) Robots<MobileObjects
     properties
         Mode;
         Status;
-        HomeLocation;
         Operation;
+        HomeLocation;
         FullPath;
         LocalPath;
         Map;
@@ -26,6 +26,7 @@ classdef (Abstract) Robots<MobileObjects
         BatteryLevel;
         RovingEnergy;
         RobotType;
+        TaskType;
     end
     properties (Dependent)
         Current;
