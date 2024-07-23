@@ -23,7 +23,6 @@ classdef LunarBaseSoftware <matlab.mixin.Heterogeneous
             obj.SimulationHandlerObj=SimulationHandler();  % Simulation Handler
            obj.ConfiguratorObj=Configurator(); % Configurator
            obj.DestructorObj=Destructor();
-
         end
          function obj= Update(obj)
               obj.SimulationHandlerObj.Main(); % Main simulation Parameter

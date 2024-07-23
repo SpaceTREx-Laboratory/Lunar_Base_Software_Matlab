@@ -14,14 +14,14 @@ classdef SimulationHandler<DataHandler
             screen_width2 =  MP(2,3);
             screen_height2 =  MP(2,4);
             Window1=figure('Position', [0, 0, screen_width1, screen_height1], ...
-                'MenuBar', 'none', 'NumberTitle', 'off', 'Resize', 'off', ...
+                'MenuBar', 'none', 'NumberTitle', 'off', 'Resize', 'on', ...
                 'WindowStyle', 'normal','Toolbar', 'none','ToolBar','none','CloseRequestFcn','','WindowState','fullscreen');
             
             Screen1Handle = axes('Parent',   Window1,'Position', [0, 0, 1, 1]);
             xlim(Screen1Handle, [0 screen_width1]);
             ylim(Screen1Handle, [0 screen_height1]);
            Window2=figure('Position', [MP(2,1), MP(2,2), screen_width2, screen_height2], ...
-                'MenuBar', 'none', 'NumberTitle', 'off', 'Resize', 'off', ...
+                'MenuBar', 'none', 'NumberTitle', 'off', 'Resize', 'on', ...
                 'WindowStyle', 'normal','Toolbar', 'none','ToolBar','none','CloseRequestFcn','','WindowState','fullscreen');
             Screen2Handle = axes('Parent',   Window2,'Position', [0, 0, 1, 1]);
             xlim(Screen2Handle, [MP(2,1) screen_width2]);
@@ -100,6 +100,7 @@ if sum(double(L_fire))>0
        
     end
 set(Screen4Handle,'XTickLabel',x);
+
  Ls=arrayfun(@(x) pdist2(x.Loc,SA(7,:))<100,InR);
 
  if sum(Ls)>=1 && q_n~=0
@@ -113,7 +114,7 @@ q_mean(i)=q_n;
 temp=Location.Temp();
 MeanTemp(i)=mean(temp,"all");
 obj.FRData([q_n MeanTemp(i)]);
- InR=arrayfun(@(x) x.Update(),InR,'UniformOutput',true);
+InR=arrayfun(@(x) x.Update(),InR,'UniformOutput',true);
 obj.InternalRobotData(InR);
 %obj.Display();
 str="Maximum HRR : "+num2str(q_n/1000)+ " (kW)";
@@ -123,27 +124,6 @@ obj.SchedulerObj=obj.SchedulerObj.Update();
  if strcmp(obj.SchedulerObj.ResponceAction,"Yes") && strcmp(obj.Complete(),"Yes")
     break;
  end
-%     case 100
-%         r=20/0.4008;
-%     case 200
-%         r=30/0.4008;
-%         case 300
-%         r=50/0.4008;
-% end
-% 
-% rectangle('Position',[SA(7,1)-30 SA(7,2)-40 r  r],FaceColor='r',Curvature=1,Parent=obj.Screen1Handle);
-% hFigure = figure(7);
-% set(hFigure, 'MenuBar', 'none');
-% set(hFigure, 'ToolBar', 'none');
-% hold on
-%   SE=strel('disk',ceil(40/0.4008),8);
-%   temp=imresize(temp,[size(SE.Neighborhood,1),size(SE.Neighborhood,1)]);
-%   temp(~SE.Neighborhood)=0;
-% pcolor(temp)
-% colormap("jet")
-% c = colorbar;
-% c.Label.String = 'Temperature (deg C) inside the superadobe';
-% end
 addpoints(h,i,q_n/1000);
    obj.FireVisualizerObj=obj.FireVisualizerObj.UpdateGraphicsObj(temp);
     FSL=find(FS);
@@ -155,26 +135,7 @@ addpoints(h,i,q_n/1000);
 pause(0.001)
 
 end
-% 
-% figure(3)
-% hold on
-% arrayfun(@(X) plot(1:i,X.q_history,'r'),Single_fire);
-% %plot(1:SMT,Single_fire(1).q_history/1000,1:SMT,Single_fire(2).q_history/1000,1:SMT,Single_fire(3).q_history/1000,1:SMT,Single_fire(4).q_history/1000,1:SMT,Single_fire(5).q_history/1000);
-% grid on;
-% xlabel("TIME (SEC)");
-% ylabel("HEAT REALSE RATE (kW)");
-% figure(4)
-% hold on
-% arrayfun(@(X)  plot(1:i,X.T_L,'r'),Single_fire);
-% %plot(1:SMT,Single_fire(1).T_L(2:SMT+1),1:SMT,Single_fire(2).T_L(2:SMT+1),1:SMT,Single_fire(3).T_L(2:SMT+1),1:SMT,Single_fire(4).T_L(2:SMT+1),1:SMT,Single_fire(5).T_L(2:SMT+1));
-% figure(5)
-% hold on
-% plot(1:i,MeanTemp,'r');
-% figure(6)
-% hold on
- %plot(1:i,q_mean,'r');      
 
-%save INR6NO Single_fire
                      end
         function obj=Display(obj)           
                %Phy=obj.PhyDATA();

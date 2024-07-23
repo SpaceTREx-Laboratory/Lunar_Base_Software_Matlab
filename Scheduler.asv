@@ -85,21 +85,18 @@ classdef Scheduler<DataHandler
         function obj=Task_Assignment(obj)
             R=obj.InternalRobotData();
              L=arrayfun(@(x) strcmp(x.Mode,"Idle"),R);
-             SA=obj.InternalRobotTarget();
-                             
-                      
              L_s=find(L==1);
              if ~isempty(L_s)
-              for i=1:length(L_s)
-              R(L_s(i)).Status='Occupied';
-              R(L_s(i)).TaskList='Move';
-                              R(L_s(i)).Task='Move';
-                              R(L_s(i)).TaskType="Low";
-                              R(L_s(i)).Start();
+              R(L).Status='Occupied';
+              R(L).TaskList='Move';
+                              R(L).Task='Move';
+                              R(L).TaskType="Low";
+                              R(L).Start();
                               R_Path=obj.InternalRobotPath();
-                              temp_L = randi(28,1);
-                              [~,idx]=min(pdist2(R_Path, SA(temp_L,:)));
-                              R(L_s(i)).Target=R_Path(idx,:);
+                             
+             for i=length(L_s)
+                              temp_L = randi(size(R_Path,1));
+                              R(L_s).Target=R_Path(temp_L,:);
              end
              end
             obj.InternalRobotData(R); 

@@ -120,6 +120,7 @@ classdef InternalRobot<Robots
             obj.Loc=obj.LocalPath(f+obj.Speed.Current,:);
             elseif strcmp(obj.Mode,'Patrol')
             obj.Loc=obj.LocalPath(1,:);
+
             elseif abs(sum(obj.Target-obj.HomeLocation))>0
             % Updating location if target is nearby
             obj.Loc=obj.Target;
@@ -128,11 +129,9 @@ classdef InternalRobot<Robots
             obj=obj.TargetUpdate();
             else
             obj.Loc=obj.HomeLocation;
-            obj.Mode='Idle';  
-            obj.Status='UnOccupied';  
-            obj.LocalPath=[];
+            obj.Mode='Idle';
             obj.Task=[];
-            obj.TaskList=[];
+            obj.Task=[];
             end
                 obj=obj.PowerconsumptionUpdate();
                 obj=obj.UpdateGraphicsobj();

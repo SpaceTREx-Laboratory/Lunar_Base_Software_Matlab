@@ -1,0 +1,36 @@
+% Define arrays A and B
+A = [ ... % Define your nx2 array here
+    % Example:
+    1.2, 3.4;
+    2.1, 4.5;
+    3.3, 2.2;
+    4.0, 5.1;
+ 
+];
+
+B = [ ... % Define your nx2 array here
+    % Example:
+    3.2, 1.1;
+   
+];
+
+% Calculate pairwise Euclidean distances between points in B and A
+distances =pdist2(B, A);
+
+% Find the minimum distance for each point in B and its corresponding index
+[minDistances, minIndex] = min(distances, [], 2);
+
+% Arrange array B in ascending order based on the minimum distances
+[B_sorted, sortedIndex] = sortrows([minDistances, B, minIndex], 1);
+
+% Extract sorted distances, B, and index
+sortedDistances = B_sorted(:, 1);
+B_sorted = B_sorted(:, 2:3);
+sortedIndex = B_sorted(:, 4);
+
+% Display the sorted B array and corresponding indices
+disp('Sorted B array:');
+disp(B_sorted);
+
+disp('Corresponding indices in A:');
+disp(sortedIndex);

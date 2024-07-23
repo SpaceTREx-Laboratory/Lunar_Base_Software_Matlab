@@ -41,11 +41,16 @@ classdef  Configurator<DataHandler
              CS=PhyData(cell2mat(arrayfun(@(x) x.SubType=="ChargingStations",PhyData,'UniformOutput',false)));
              CS_Loc=(arrayfun(@(x) x.Corner,CS,'UniformOutput',false))';
              CS_Loc=ceil((table2array(cell2table(CS_Loc)))/0.4008);
+                             R_Path=obj.InternalRobotPath();
+                             for i=1:size(CS_Loc,1)
+                              [~,idx]=min(pdist2(R_Path, CS_Loc(i,:)));
+                              CS_Loc(i,:)=R_Path(idx,:);
+                             end
              obj.InternalRobotCS(CS_Loc);
              obj.InternalRobotTarget(SA_Loc);
         end
          function obj = Mobileobjects_config(obj)
-           obj.InR=Internal_Robot_config(obj.InternalRobotCS);
+           obj.InR=Internal_Robot_config(obj.InternalRobotCS,obj.InternalRobotPath());
            obj.InternalRobotData(obj.InR);
          end
          function obj = Smartsensor_config(obj)
