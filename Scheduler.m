@@ -43,7 +43,7 @@ classdef Scheduler<DataHandler
             switch obj.Mission
                 case 'FireFighting'
                          EnM=obj.FRData();
-                          if  max(Location.Temp(),[],'all')<25 && EnM(1)==0
+                          if  max(Location.Temp(),[],'all')<25.5 && EnM(1)==0
                               obj.Complete("Yes");
                           end
                    
@@ -58,7 +58,7 @@ classdef Scheduler<DataHandler
         function obj=FireFightingCheck(obj)
                           EnvM=obj.FRData();
                           if strcmp(obj.ResponceAction,"No")
-                          if  max(Location.Temp(),[],'all')>27 && EnvM(1)>0
+                          if  max(Location.Temp(),[],'all')>25.5 && EnvM(1)>0
                             if strcmp(obj.Responce,'Intial')
                                NofR=1;
                             elseif strcmp(obj.Responce,'Overwhamling')
@@ -69,8 +69,8 @@ classdef Scheduler<DataHandler
                               InR=obj.InternalRobotData();
                               SA=obj.InternalRobotTarget();
                               R_Path=obj.InternalRobotPath();
-                              [~,idx]=min(pdist2(R_Path, SA(7,:)));
-                             obj=obj.Fire_Assign(InR,NofR,idx,R_Path, SA(7,:));
+                              [~,idx]=min(pdist2(R_Path, SA(obj.Fire_Location(),:)));
+                             obj=obj.Fire_Assign(InR,NofR,idx,R_Path, SA(obj.Fire_Location(),:));
                           else
                              return;
                           end
@@ -85,9 +85,7 @@ classdef Scheduler<DataHandler
         function obj=Task_Assignment(obj)
             R=obj.InternalRobotData();
              L=arrayfun(@(x) strcmp(x.Mode,"Idle"),R);
-             SA=obj.InternalRobotTarget();
-                             
-                      
+             SA=obj.InternalRobotTarget();         
              L_s=find(L==1);
              if ~isempty(L_s)
               for i=1:length(L_s)

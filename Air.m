@@ -13,7 +13,7 @@ classdef Air
         function obj = Air(Loc,K)
             %   Detailed explanation goes here
             obj.Loc = Loc;
-            obj.K=-0.013;
+            obj.K=-0.03;
         end
 
         function obj = update(obj)

@@ -1,12 +1,12 @@
 function InR=Internal_Robot_config(temp,Path)
 
-Num=12;
+Num=10;
 Tag="IR"+num2str((1:1:Num)');
 j=1;
 for i=1:Num
 % Robotpath_Start=Path(x(i),:);
-max_speed=20;
-min_speed=6;
+max_speed=5;
+min_speed=2;
 robottype="Modular";
 roving_energy_max=0.2;
 roving_energy_min=0.1;

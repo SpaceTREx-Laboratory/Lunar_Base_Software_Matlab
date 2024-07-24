@@ -13,7 +13,8 @@ classdef FireVisualizer<EmergencyScenario
     methods
         function obj=FireVisualizer()
             temp=obj.InternalRobotTarget();
-            obj.Loc=temp(7,:);
+            Fire=obj.Fire_Location();
+            obj.Loc=temp(Fire,:);
             obj.Tag="FV1";
         end
         function   obj=CreateGraphicsObj(obj,temp)
@@ -63,6 +64,14 @@ obj.ColorbarHandle=colorbar('peer', obj.Screen1Handle);
          
              str="Maximum Room Temp: "+num2str(MeanTemp)+ " (deg)";
             obj.TextHandle.String=str;
+        end
+
+           function  obj=DeleteGraphicsObj(obj)
+             
+
+              alpha(obj.GraphicsHandle,0);
+         
+           
         end
     end
 end
