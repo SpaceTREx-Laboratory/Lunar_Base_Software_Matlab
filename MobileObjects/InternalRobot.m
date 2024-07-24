@@ -100,13 +100,20 @@ classdef InternalRobot<Robots
 
 
         function obj=PathPlanning(obj)
-         planner=plannerAStarGrid(obj.Map);         
-         rng('default');
-         
-         robot_Path=plan(planner,flip(obj.Loc),flip(obj.Target)); 
+            % planner=plannerRRT(obj.Map); 
+     
+         [~,robot_path1]=Robot_path_planning(obj.Loc,obj.Target);
+       
+         if isempty(robot_path1)
+          planner=plannerAStarGrid(obj.Map);
+         % rng('default');
+          robot_Path=plan(planner,flip(obj.Loc),flip(obj.Target)); 
+          robot_path1=[robot_Path(:,2) robot_Path(:,1)];
+         end
+         % toc
          % figure(3)
          % show(planner)
-         obj.LocalPath=[robot_Path(:,2) robot_Path(:,1)];
+         obj.LocalPath=[robot_path1(:,1) robot_path1(:,2)];
         end
 
         %% Move Update
@@ -115,6 +122,9 @@ classdef InternalRobot<Robots
             if strcmp(obj.Status,'Occupied') || strcmp(obj.Status,'LowPower') || strcmp(obj.Mode,'Moving') 
             % Move location
             f=find(double(ismember(obj.LocalPath,obj.Loc,"rows"))==1);
+            if isempty(f)
+                obj=obj.PathPlanning();
+            end
             f=f(1);
             if (f+obj.Speed.Current)<size(obj.LocalPath,1)
             obj.Loc=obj.LocalPath(f+obj.Speed.Current,:);

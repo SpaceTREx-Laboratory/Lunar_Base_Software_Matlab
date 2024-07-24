@@ -173,7 +173,7 @@ classdef Fire<handle
              temp1(obj.Loc(1),obj.Loc(2))=0;
              Location.Fire(temp1);
           end
-          obj.q=obj.q-(n*10000);
+          obj.q=obj.q-(n*100);
           if obj.q<0
               obj.q=0;
               temp1=Location.Fire();

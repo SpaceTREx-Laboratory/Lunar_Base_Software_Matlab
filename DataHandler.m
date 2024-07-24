@@ -20,8 +20,14 @@ classdef (Abstract) DataHandler<LunarConstruction
             end
             out=Data;
         end
-
-
+%% Fire_Location
+        function out = Fire_Location(data)
+            persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
         %% Physical Infrastructure DATA
 
         function out = PhyDATA(data)

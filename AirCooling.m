@@ -13,7 +13,7 @@ classdef AirCooling<EmergencyScenario
         function obj = AirCooling(Loc,K)
             %   Detailed explanation goes here
             obj.Loc = Loc;
-            obj.K=-0.013;
+            obj.K=-0.01;
         end
 
         function obj = update(obj)

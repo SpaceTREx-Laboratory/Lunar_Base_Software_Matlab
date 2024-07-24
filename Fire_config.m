@@ -4,29 +4,42 @@ c = zeros(grid_size);
 T_amb = repmat(25,grid_size,grid_size);
 Location.Temp(T_amb);
 Location.Fire(c);
-% t0=0;
-% t1MW=150; % or kW
-%  tl0=170;
-%  td=670;
-% tend=2000;
-% tg=150;
-t0=80;
+load("Fire_profile_HRR.mat");
+rng("shuffle");
+Rn=randi(1000,[10 1]);
+t0=T(Rn,1);
 %t1MW=linspace(150,95,10); % or kW
-t1MW=85;
-tl0=180;
+t1MW=T(Rn,2);
+tl0=T(Rn,3);
 % tl0=[180;188;190;192;186;180;188;190;192;186];
-td=190;
+td=T(Rn,4);
  %td=[190;200;230;205;237;198;201;207;225;204];
-tend=460;
+tend=T(Rn,5);
  %tend=[460;500;470;480;600;700;800;560;499;766];
  % tg=[30;34;32;29;10;15;47;57;37;33];
-tg=30;
- L=[1 3;12 6;10 7;5 7;7 9;11 12;12 10;1 5;4 5;3 2];
- Ti=[50;40;70;54;55;45;38;52;30;55];
- In=[7;3;2.5;6;5;7;3;2.5;6;5];
+tg=T(Rn,6);
+% t0=30+randi(120,1);
+% t1MW=t0+round((10)* rand());
+% tl0=t1MW+round(20*rand());
+% td=tl0+round(50*rand());
+% tend=td+randi(500,1);
+% tg=t1MW-t0;
+% t1MW=linspace(150,95,10); % or kW
+% 
+% tl0=[180;188;190;192;186;180;188;190;192;186];
+% 
+%  td=[190;200;230;205;237;198;201;207;225;204];
+% 
+%  tend=[460;500;470;480;600;700;800;560;499;766];
+%  tg=[30;34;32;29;10;15;47;57;37;33];
+rng("shuffle");
+L=[randi(15,[10 1]) randi(15,[10 1])];
+%Ti=30+randi(10,[10, 1]);
+In=randi(7,[10, 1]);Ti=35+randi(10,[10, 1]);
+% Ti=[50;40;50;54;55;45;38;52;30;55];
 K=[100;39;20;51;76;100;39;20;51;76]/1000000;
 for i=1:size(In)
-Single_fire(i)=Fire(t0,t1MW,tl0,td,tend,tg,L(i,:),Ti(i),In(i),K(i));
+Single_fire(i)=Fire(t0(i),t1MW(i),tl0(i),td(i),tend(i),tg(i),L(i,:),Ti(i),In(i),K(i));
 end
    [Cc,Rc]=find(Location.Temp()>0);
 for i=1:length(Rc)

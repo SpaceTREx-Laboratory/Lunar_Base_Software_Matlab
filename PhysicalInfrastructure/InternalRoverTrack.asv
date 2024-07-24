@@ -41,8 +41,8 @@ classdef InternalRoverTrack<PhysicalInfrastructure
     I_high=insertShape(I,"line",[X1 Y1 X2 Y2],"Color","blue","LineWidth",5);
     I_temp= rgb2gray(I_high)>1;
     I_map=binaryOccupancyMap(~I_temp,obj.PixTom); % 1 pixel = 0.13 m
-    %I_mask=binaryOccupancyMap(~I_temp,100); % 1 pixel = 0.13 m
-    % I_Track=occupancyMatrix(I_mask);
+    I_mask=binaryOccupancyMap(~I_temp,100); % 1 pixel = 0.13 m
+    I_Track=occupancyMatrix(I_mask);
     mat = occupancyMatrix(I_map);
     [l,m]=find(mat==0);
      C=bwtraceboundary(I_temp,[l(1) m(1)],'W');

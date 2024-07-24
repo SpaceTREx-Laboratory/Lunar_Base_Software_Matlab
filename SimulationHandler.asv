@@ -42,9 +42,7 @@ classdef SimulationHandler<DataHandler
             %% Updating robots
             [Single_fire,Env,tend]=Fire_config();
             temp=Location.Temp();
-            rng("shuffle");
-            Lo=Single_fire(randi(10,1)).Loc();
-            temp(Lo(1),Lo(2))=60+randi(20,1);
+            temp(randi(15,1),randi(15,1))=60;
             Location.Temp(temp);
             Fire_loc=7+randi(21,1);
             obj.Fire_Location(Fire_loc);
@@ -64,6 +62,7 @@ classdef SimulationHandler<DataHandler
             SMT=2000;
             S_f=randi(10,1);
             Single_fire(S_f).Status="on";
+ 
             str="Maximum HRR : "+num2str(q_n/1000)+ " (kW)";
             obj.TextHandle=text(obj.Screen1Handle,0,200,str,'Color','w','FontSize',18,'BackgroundColor','blue');
             F3=figure('Tag','HRR','MenuBar', 'none', 'NumberTitle', 'off','ToolBar','none','Position',[100 100 700 500]);
@@ -105,7 +104,7 @@ classdef SimulationHandler<DataHandler
                     end
                     set(Screen4Handle,'XTickLabel',x);
 
-                    Ls=arrayfun(@(x) pdist2(x.Loc,SA(obj.Fire_Location(),:))<50,InR);
+                    Ls=arrayfun(@(x) pdist2(x.Loc,SA(obj.Fire_Location(),:))<100,InR);
 
                     if sum(Ls)>=1 && q_n~=0
 

@@ -100,13 +100,18 @@ classdef InternalRobot<Robots
 
 
         function obj=PathPlanning(obj)
-         planner=plannerAStarGrid(obj.Map);         
-         rng('default');
+            % planner=plannerRRT(obj.Map); 
+     
+         [~,robot_path1]=Robot_path_planning(obj.Loc,obj.Target);
+       
          
-         robot_Path=plan(planner,flip(obj.Loc),flip(obj.Target)); 
+         % planner=plannerAStarGrid(obj.Map);
+         % rng('default');
+         % robot_Path=plan(planner,flip(obj.Loc),flip(obj.Target)); 
+         % toc
          % figure(3)
          % show(planner)
-         obj.LocalPath=[robot_Path(:,2) robot_Path(:,1)];
+         obj.LocalPath=[robot_path1(:,1) robot_path1(:,2)];
         end
 
         %% Move Update
@@ -115,12 +120,14 @@ classdef InternalRobot<Robots
             if strcmp(obj.Status,'Occupied') || strcmp(obj.Status,'LowPower') || strcmp(obj.Mode,'Moving') 
             % Move location
             f=find(double(ismember(obj.LocalPath,obj.Loc,"rows"))==1);
+            if isempty(f)
+                obj=obj.PathPlanning();
+            end
             f=f(1);
             if (f+obj.Speed.Current)<size(obj.LocalPath,1)
             obj.Loc=obj.LocalPath(f+obj.Speed.Current,:);
             elseif strcmp(obj.Mode,'Patrol')
             obj.Loc=obj.LocalPath(1,:);
-
             elseif abs(sum(obj.Target-obj.HomeLocation))>0
             % Updating location if target is nearby
             obj.Loc=obj.Target;
@@ -129,9 +136,11 @@ classdef InternalRobot<Robots
             obj=obj.TargetUpdate();
             else
             obj.Loc=obj.HomeLocation;
-            obj.Mode='Idle';
+            obj.Mode='Idle';  
+            obj.Status='UnOccupied';  
+            obj.LocalPath=[];
             obj.Task=[];
-            obj.Task=[];
+            obj.TaskList=[];
             end
                 obj=obj.PowerconsumptionUpdate();
                 obj=obj.UpdateGraphicsobj();
