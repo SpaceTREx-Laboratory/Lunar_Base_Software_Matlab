@@ -105,7 +105,12 @@ classdef InternalRobot<Robots
          [~,robot_path1]=Robot_path_planning(obj.Loc,obj.Target);
        
          if isempty(robot_path1)
+         % mat = occupancyMatrix(obj.Map);
+         % I_temp=imresize(~mat,0.2);
+         % figure(4)
+         % imshow(I_temp)
           planner=plannerAStarGrid(obj.Map);
+          %mask(sub2ind(size(A), row_indices, col_indices)) = true;
          % rng('default');
           robot_Path=plan(planner,flip(obj.Loc),flip(obj.Target)); 
           robot_path1=[robot_Path(:,2) robot_Path(:,1)];

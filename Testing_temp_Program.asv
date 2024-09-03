@@ -1,0 +1,150 @@
+clc;
+clear;
+load("PRAREA.mat");
+env_map=imresize(Player,0.2);
+load("sensor_locaion.mat");
+[r,c]=find(temp);
+sum(sum(temp))
+Sensor_Loc=[c r];
+sensor_radius = 50; % Sensor coverage radius for isotropic sensors
+comm_radius = 100; % Communication radius for network connectivity % 1 pixel = 0.6675 m Indoor wifi range 115 ft.
+num_sensors = 600; % Number of sensors to place
+prob_sensor = false; % Flag to use probabilistic sensors (set true for Gaussian distribution)
+
+
+% Get dimensions of the environment
+[rows, cols] = size(env_map);
+te=unique(randi(400,[num_sensors 1]));
+% Initialize sensor positions
+allowed_positions = Sensor_Loc;
+num_allowed_positions = size(allowed_positions, 1);
+
+%% Testing
+% imshow(temp)
+% hold on;
+% %plot(Sensor_Loc(te,2),Sensor_Loc(te,1),"r*");
+SS=coverage_objective(te, allowed_positions, env_map, sensor_radius, comm_radius, prob_sensor);
+
+population_size = 10;
+max_generations = 50;
+mutation_rate = 0.1;
+initial_population = randi([1, num_allowed_positions], population_size, num_sensors);
+
+%% % Set up bounds for indices
+lb = ones(1, num_sensors); % Lower bound: index 1
+ub = num_allowed_positions * ones(1, num_sensors); % Upper bound: max index of allowed positions
+
+% Genetic Algorithm Optimization (Modified)
+options = optimoptions('ga', 'PopulationSize', population_size, 'MaxGenerations', max_generations, ...
+    'MutationFcn', @(parents, options, nvars, FitnessFcn, state, thisScore, thisPopulation) ...
+    mutationCustom(parents, options, nvars, FitnessFcn, state, thisScore, thisPopulation, num_allowed_positions), ...
+    'Display', 'iter', 'InitialPopulationMatrix', initial_population);
+
+[optimized_indices, fval] = ga(@(indices) coverage_objective(round(indices), allowed_positions, env_map, sensor_radius, comm_radius, prob_sensor), ...
+    num_sensors, [], [], [], [], lb, ub, [], options);
+
+
+% Convert optimized indices to positions
+optimized_positions = allowed_positions(round(optimized_indices), :);
+
+% Plot results
+figure;
+imshow(env_map);
+hold on;
+plot(optimized_positions(:,1), optimized_positions(:,2), 'go');
+title('Optimized Sensor Placement');
+
+% Display final coverage score
+disp(['Final combined score: ', num2str(1 / fval)]);
+%% 
+
+function score = coverage_objective(indices, allowed_positions, env_map, sensor_radius, comm_radius, prob_sensor)
+    % Convert indices to actual sensor positions
+    indices=round(indices);
+    sensor_positions = allowed_positions(indices, :);
+    num_sensors = size(sensor_positions, 1);
+      % Add penalty if there are duplicate indices
+    if length(unique(indices)) < num_sensors
+        duplicate_penalty = 1000; % Large penalty for duplicates
+    else
+        duplicate_penalty = 0;
+    end
+    % Calculate coverage map using vectorized operations
+    [rows, cols] = size(env_map);
+    [X, Y] = meshgrid(1:cols, 1:rows);
+    
+    if prob_sensor
+        % Probabilistic sensor model (Gaussian distribution)
+        sigma = sensor_radius / 3;
+        coverage_map = zeros(rows, cols);
+        
+        % Compute distances from all sensors to all points in the environment
+        for i = 1:num_sensors
+            dx = X - sensor_positions(i,1);
+            dy = Y - sensor_positions(i,2);
+            coverage_map = coverage_map + exp(-(dx.^2 + dy.^2) / (2 * sigma^2));
+        end
+    else
+        % Isotropic sensor model (uniform coverage) This will ensure the
+        % pixel covers by the sensors.
+        coverage_map = zeros(rows, cols);
+        for i = 1:num_sensors
+            dist = sqrt((X - sensor_positions(i,1)).^2 + (Y - sensor_positions(i,2)).^2);
+            coverage_map(dist <= sensor_radius) = 1;
+        end
+    end
+    
+    % Compute coverage score
+    covered_area = sum(sum(coverage_map > 0 & env_map == 1));
+    total_free_area = sum(env_map(:));
+    coverage_score = covered_area / total_free_area; % Positive coverage score
+
+    % Network Connectivity and Latency using vectorized operations
+    % Compute pairwise distances between all sensor positions
+    dist_matrix = pdist2(sensor_positions, sensor_positions);
+
+    % Create connectivity matrix (1 if connected, 0 otherwise)
+    connectivity_matrix = dist_matrix <= comm_radius & dist_matrix > 0;
+    if sum(sum(connectivity_matrix))==0
+      disp("error");
+    end
+    % Sum all distances that are within communication range for latency calculation
+    latency_sum = sum(dist_matrix(connectivity_matrix));
+    
+    % Find the maximum distance that is within communication range
+    max_latency = max(dist_matrix(connectivity_matrix));
+    
+    % Check network connectivity
+    G = graph(connectivity_matrix);
+    is_connected = all(conncomp(G) == 1);
+    figure(1)
+   plot(G,'b')
+    
+    % Normalize latency measures
+    avg_latency = latency_sum / (num_sensors * (num_sensors - 1) / 2);
+    normalized_max_latency = max_latency / comm_radius;
+
+    % Penalize if not fully connected
+    connectivity_penalty = 0;
+    if ~is_connected
+        connectivity_penalty = 1; % Maximum penalty if the network is not connected
+    end
+    
+    % Define the final score as a combination of coverage, connectivity, and latency
+    alpha = 1; % Weight for coverage
+    beta = 0.3;  % Weight for connectivity penalty
+    gamma = 0.2; % Weight for latency minimization (adjust these weights as needed)
+    delta = 0.1; % Additional weight for avoiding redundancy
+
+    % Redundancy penalty: maximize minimum distance between sensors
+    min_dist = min(dist_matrix(dist_matrix > 0)); % Minimum distance between sensors
+    redundancy_penalty = 1 / (min_dist + 1e-6); % Higher penalty for closer sensors
+    % score = -(alpha * coverage_score - beta * connectivity_penalty - gamma * (normalized_max_latency + avg_latency));
+ offset = 1; % Offset to ensure positive denominator
+    score = 1 / (alpha * coverage_score - beta * connectivity_penalty - gamma * (normalized_max_latency + avg_latency) + offset)+duplicate_penalty+ (delta * redundancy_penalty);
+end
+% Custom Mutation Function to Ensure Integer Indices
+function mutationChildren = mutationCustom(parents, options, nvars, FitnessFcn, state, thisScore, thisPopulation, num_allowed_positions)
+    mutationChildren = round(mutationgaussian(parents, options, nvars, FitnessFcn, state, thisScore, thisPopulation));
+    mutationChildren = max(min(mutationChildren, num_allowed_positions), 1); % Keep indices within bounds
+end

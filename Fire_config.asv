@@ -1,5 +1,5 @@
 function [Single_fire, Env, tend] = Fire_config
-grid_size = 20;
+grid_size = 15;
 c = zeros(grid_size);
 T_amb = repmat(25,grid_size,grid_size);
 Location.Temp(T_amb);
@@ -38,12 +38,12 @@ L=[randi(15,[10 1]) randi(15,[10 1])];
 In=randi(7,[10, 1]);Ti=35+randi(10,[10, 1]);
 % Ti=[50;40;50;54;55;45;38;52;30;55];
 K=[100;39;20;51;76;100;39;20;51;76]/1000000;
-for i=1:length(In)
+for i=1:size(In)
 Single_fire(i)=Fire(t0(i),t1MW(i),tl0(i),td(i),tend(i),tg(i),L(i,:),Ti(i),In(i),K(i));
 end
    [Cc,Rc]=find(Location.Temp()>0);
-for i=1:length(Cc)
-    Env(i)=AirCooling([Cc(i) Rc(i)],-35);
+for i=1:
+    Env(i)=AirV3([Cc(i) Rc(i)],-35);
 end
    Ll=ismember([Cc Rc],L,"rows");
 Locat=arrayfun(@(x) x.Loc,Single_fire,'UniformOutput',false);

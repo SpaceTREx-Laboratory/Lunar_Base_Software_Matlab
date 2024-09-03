@@ -1,6 +1,6 @@
 function [d,path]=Robot_path_planning(Start,endp)
 load('RoverTrack.mat')
-I=I_temp;
+I=imresize(I_temp,0.2);
  % C=bwtraceboundary(I,[l(1) m(1)],'W');
  % Path_temp=[C(:,2) C(:,1)];
 I_image=I;

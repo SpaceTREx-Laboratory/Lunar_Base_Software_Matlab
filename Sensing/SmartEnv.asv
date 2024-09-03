@@ -1,0 +1,32 @@
+classdef SmartEnv<SMSU
+    %SMARTENV Summary of this class goes here
+    %   Detailed explanation goes here
+    
+    properties
+        Property1
+    end
+    
+    methods
+        function obj = SmartEnv(Loc,Ran)
+            %SMARTENV Construct an instance of this class
+            %   Detailed explanation goes here
+            obj.Loc=Loc;
+            obj.RangeV=Ran;
+            gridSize=size(obj.EnvDatalogic());
+            [x, y] = meshgrid(1:gridSize(1), 1:gridSize(2));
+
+% Calculate distance from the source point to all other points in the grid
+            distances = sqrt((x - obj.Loc(1) ).^2 + (y - obj.Loc(2)).^2)';
+            obj.RangeL=distances<obj.RangeV;
+            
+            imshow(obj.RangeL)
+        end
+        
+        function outputArg = method1(obj,inputArg)
+            %METHOD1 Summary of this method goes here
+            %   Detailed explanation goes here
+            outputArg = obj.Property1 + inputArg;
+        end
+    end
+end
+

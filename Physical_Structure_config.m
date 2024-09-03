@@ -64,12 +64,11 @@ end
 % 
 
 for i=1:length(Lpr.("S No"))
-    Physicaltlp.Corner(1)=Lpr.Corner_x1(i);
+Physicaltlp.Corner(1)=Lpr.Corner_x1(i);
 Physicaltlp.Length=Lpr.Corner_x2(i);
 Physicaltlp.Corner(2)=Lpr.Corner_y1(i);
 Physicaltlp.Width=Lpr.Corner_y2(i);
-    LPPR(i)=LandingPadPavedRoads(Lpr.Tag(i),[Lpr.Corner_x1(i) Lpr.Corner_y1(i) Lpr.Corner_x2(i) Lpr.Corner_y2(i)],Invo);
-     
+LPPR(i)=LandingPadPavedRoads(Lpr.Tag(i),[Lpr.Corner_x1(i) Lpr.Corner_y1(i) Lpr.Corner_x2(i) Lpr.Corner_y2(i)],Invo);    
 end
 % 
 %% Pressuriesd Modelues

@@ -116,6 +116,27 @@ function out = InternalRobotCS(data)
             end
             out=Data;
     end
+    function out = EnvDataPressure(data)
+           persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+    end
+        function out = EnvDatalogic(data)
+           persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+        end
+         function out = HabitBoundary(data)
+           persistent Data;
+            if nargin
+                Data=data;
+            end
+            out=Data;
+    end
      %% Pressurised Area Data
     function out = PRArea(data)
        persistent Data;

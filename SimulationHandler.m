@@ -95,7 +95,8 @@ classdef SimulationHandler<DataHandler
                 arrayfun(@(x) x.update(),Env,'UniformOutput',false);
                 FS=cell2mat(arrayfun(@(x) x.q==0,Single_fire,'UniformOutput',false));
                 L_fire=logical(cell2mat(arrayfun(@(x) (x.Status=="on" && x.q>0),Single_fire,'UniformOutput',false)));
-                if sum(double(L_fire))>0
+                
+                if sum(double(L_fire))>0 
                     
                     hb.CData(L_fire,:)=repmat([1 0 0],sum(double(L_fire)),1);
                     LL=find(L_fire);
@@ -148,7 +149,10 @@ classdef SimulationHandler<DataHandler
                 end
                 end
             end
-
+                   close(figure(3));
+                    close(figure(4));
+                    
+                    obj.FireVisualizerObj=obj.FireVisualizerObj.DeleteGraphicsObj();
             end
         function obj=Display(obj)           
                %Phy=obj.PhyDATA();

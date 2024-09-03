@@ -40,15 +40,32 @@ classdef InternalRoverTrack<PhysicalInfrastructure
   I=insertShape(I,"line",[X1(1:2) Y1(1:2) X2(1:2) Y2(1:2)],"Color","blue","LineWidth",5);
     I_high=insertShape(I,"line",[X1 Y1 X2 Y2],"Color","blue","LineWidth",5);
     I_temp= rgb2gray(I_high)>1;
-    I_map=binaryOccupancyMap(~I_temp,obj.PixTom); % 1 pixel = 0.13 m
+
+    %% Old program
+
+    % I_map=binaryOccupancyMap(~I_temp,obj.PixTom); % 1 pixel = 0.13 m
+    % %I_mask=binaryOccupancyMap(~I_temp,100); % 1 pixel = 0.13 m
+    % % I_Track=occupancyMatrix(I_mask);
+    % mat = occupancyMatrix(I_map);
+    % [l,m]=find(mat==0);
+    % C=bwtraceboundary(I_temp,[l(1) m(1)],'W');
+    % Path_temp=[C(:,2) C(:,1)];
+    % obj.InternalRobotPath(Path_temp);
+    % obj.InternalRobotMap(I_map);
+%% New Program
+    I_Temp_new=imresize(I_temp,0.2);
+    I_map=binaryOccupancyMap(~I_Temp_new,obj.PixTom); % 1 pixel = 0.13 m
     %I_mask=binaryOccupancyMap(~I_temp,100); % 1 pixel = 0.13 m
     % I_Track=occupancyMatrix(I_mask);
     mat = occupancyMatrix(I_map);
     [l,m]=find(mat==0);
-     C=bwtraceboundary(I_temp,[l(1) m(1)],'W');
+    C=bwtraceboundary(I_Temp_new,[l(1) m(1)],'W');
     Path_temp=[C(:,2) C(:,1)];
     obj.InternalRobotPath(Path_temp);
     obj.InternalRobotMap(I_map);
+
+
+
     end
         
 

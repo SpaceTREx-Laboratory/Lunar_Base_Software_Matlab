@@ -9,14 +9,16 @@ classdef (Abstract) MobileObjects<DataHandler
         function obj=CreateGraphicsobj(obj)
             %% Create graphics object
           icon=obj.InRIcon;
-         obj.GraphicsHandle=imagesc('XData',(obj.Loc(1):obj.Loc(1)+size(icon,1))-(size(icon,1)/2),'YData',(obj.Loc(2):obj.Loc(2)+size(icon,2))-(size(icon,2)/2),'CData',icon,Parent=obj.Screen1Handle,Tag=obj.Tag);
+          temp_Loc=obj.Loc*5;
+         obj.GraphicsHandle=imagesc('XData',(temp_Loc(1):temp_Loc(1)+size(icon,1))-(size(icon,1)/2),'YData',(temp_Loc(2):temp_Loc(2)+size(icon,2))-(size(icon,2)/2),'CData',icon,Parent=obj.Screen1Handle,Tag=obj.Tag);
  %imagesc('CData',icon,Parent=obj.Screen1Handle,Tag=obj.Tag)
   
         end
         function obj=UpdateGraphicsobj(obj)
               %% Update graphics object
           icon=obj.InRIcon;
-          set(obj.GraphicsHandle,'XData',(obj.Loc(1):obj.Loc(1)+size(icon,1))-(size(icon,1)/2),'YData',(obj.Loc(2):obj.Loc(2)+size(icon,2))-(size(icon,2)/2),'CData',icon);
+                 temp_Loc=obj.Loc*5;
+          set(obj.GraphicsHandle,'XData',(   temp_Loc(1):   temp_Loc(1)+size(icon,1))-(size(icon,1)/2),'YData',(   temp_Loc(2):   temp_Loc(2)+size(icon,2))-(size(icon,2)/2),'CData',icon);
         end
     end
 end

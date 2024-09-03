@@ -7,8 +7,8 @@ classdef  Configurator<DataHandler
    Sandbags;
    SmartSensorUnits;
    InR;
-  
    Phy;
+   Env;
    end
    
 
@@ -38,27 +38,53 @@ classdef  Configurator<DataHandler
              SA=PhyData(cell2mat(arrayfun(@(x) x.SubType=="Superadobe",PhyData,'UniformOutput',false)));
              SA_Loc=(arrayfun(@(x) x.Center,SA,'UniformOutput',false))';
              SA_Loc=ceil((table2array(cell2table(SA_Loc)))/0.4008);
+             SA_Loc=ceil(SA_Loc/5);
+            
+             %% Superadobe location data
+               R_Path=obj.InternalRobotPath();
+               for i=1:size(SA_Loc,1)
+                   [~,idx]=min(pdist2(R_Path, SA_Loc(i,:)));
+                   SA_Loc(i,:)=R_Path(idx,:);
+               end
+          
              CS=PhyData(cell2mat(arrayfun(@(x) x.SubType=="ChargingStations",PhyData,'UniformOutput',false)));
              CS_Loc=(arrayfun(@(x) x.Corner,CS,'UniformOutput',false))';
-             CS_Loc=ceil((table2array(cell2table(CS_Loc)))/0.4008);
-                             R_Path=obj.InternalRobotPath();
+             CS_Loc=ceil((table2array(cell2table(CS_Loc)))/(0.4008*5));
+                           
                              for i=1:size(CS_Loc,1)
                               [~,idx]=min(pdist2(R_Path, CS_Loc(i,:)));
                               CS_Loc(i,:)=R_Path(idx,:);
                              end
              obj.InternalRobotCS(CS_Loc);
              obj.InternalRobotTarget(SA_Loc);
+             %% Enviornmental data config
+             temp_map=occupancyMatrix(obj.InternalRobotMap());
+             temp_data = repmat(25,size(temp_map));
+             load('PRAREA.mat');
+             env_logic=imresize(Player,0.2);
+             temp_data(~env_logic)=0;
+             obj.EnvDataTemp(temp_data);
+             obj.EnvDatalogic(env_logic);
+             obj=obj.Datalayer();
+             [row,col]=find(env_logic);
+             PreBound=bwtraceboundary(env_logic,[row(1), col(1)],"N");  
+             binary_image=false(size(env_logic));
+             binary_image(sub2ind(size(env_logic),  PreBound(:,1), PreBound(:,2))) =true;
+             obj.HabitBoundary(binary_image);
         end
          function obj = Mobileobjects_config(obj)
            obj.InR=Internal_Robot_config(obj.InternalRobotCS,obj.InternalRobotPath());
            obj.InternalRobotData(obj.InR);
          end
          function obj = Smartsensor_config(obj)
-           
+           Value=obj.HabitBoundary(obj.HabitBoundary());
+           SM=SmartSensorConfig(Value);
          end
          function obj = Inventorylist_config(obj)
            
          end
-       
+         function obj = Datalayer(obj)
+           
+         end
     end
 end
